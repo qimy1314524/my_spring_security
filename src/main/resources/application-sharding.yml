@@ -1,0 +1,197 @@
+spring:
+  shardingsphere:
+    datasource:
+      #配置数据源的名称
+      names: masterspringsecurity,slavespringsecurity,mastercourse1,mastercourse2,slavecourse1,slavecourse2
+        #配置数据源信息
+      masterspringsecurity:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://120.26.173.145:3309/springSecurity?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&useSSL=false&serverTimezone=GMT%2B8
+        username: root
+        password: 619619tey
+        type: com.alibaba.druid.pool.DruidDataSource
+        filters: stat
+        maxActive: 20
+        initialSize: 1
+        maxWait: 60000
+        minIdle: 1
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: select 'x'
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+        maxOpenPreparedStatements: 100
+      mastercourse1:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://120.26.173.145:3309/course1?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&useSSL=false&serverTimezone=GMT%2B8
+        username: root
+        password: 619619tey
+        type: com.alibaba.druid.pool.DruidDataSource
+        filters: stat
+        maxActive: 20
+        initialSize: 1
+        maxWait: 60000
+        minIdle: 1
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: select 'x'
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+        maxOpenPreparedStatements: 100
+      mastercourse2:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://120.26.173.145:3309/course2?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&useSSL=false&serverTimezone=GMT%2B8
+        username: root
+        password: 619619tey
+        type: com.alibaba.druid.pool.DruidDataSource
+        filters: stat
+        maxActive: 20
+        initialSize: 1
+        maxWait: 60000
+        minIdle: 1
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: select 'x'
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+        maxOpenPreparedStatements: 100
+      slavecourse1:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://120.26.173.145:3310/course1?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&useSSL=false&serverTimezone=GMT%2B8
+        username: root
+        password: 619619tey
+        type: com.alibaba.druid.pool.DruidDataSource
+        filters: stat
+        maxActive: 20
+        initialSize: 1
+        maxWait: 60000
+        minIdle: 1
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: select 'x'
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+        maxOpenPreparedStatements: 100
+      slavecourse2:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://120.26.173.145:3310/course2?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&useSSL=false&serverTimezone=GMT%2B8
+        username: root
+        password: 619619tey
+        type: com.alibaba.druid.pool.DruidDataSource
+        filters: stat
+        maxActive: 20
+        initialSize: 1
+        maxWait: 60000
+        minIdle: 1
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: select 'x'
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+        maxOpenPreparedStatements: 100
+      slavespringsecurity:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://120.26.173.145:3310/springSecurity?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&useSSL=false&serverTimezone=GMT%2B8
+        username: root
+        password: 619619tey
+        type: com.alibaba.druid.pool.DruidDataSource
+        filters: stat
+        maxActive: 20
+        initialSize: 1
+        maxWait: 60000
+        minIdle: 1
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: select 'x'
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+        maxOpenPreparedStatements: 100
+    #没有使用自己进行的配置
+#    sharding:
+#      tables:
+#      #指定course表的分布情况,配置表再哪个数据库里面,表名称是什么druid01.course_1,druid01.course_2
+#        course:
+#          actual-data-nodes: mastercourse1.course1,mastercourse1.course2,mastercourse2.course1,mastercourse2.course2 #druid01.course$->{1..2}  #等同于druid01.course_1,druid01.course_2
+##          指定主键生成策略
+#          key-generator:
+#            column: cid
+#            type: SNOWFLAKE
+#          table-strategy:
+#            inline:
+#              #根据什么值做分片策略
+#              sharding-column: cid
+##              我们现在使用的是course_1与course_2 使用cid%2 会得0或1所以我们需要在后面+1 让其变为1和2
+#              algorithm-expression: course$->{cid % 2 + 1}
+##      binding-tables: course1,course2
+#    #打开sql输出的日志
+    props:
+      sql:
+        show: true
+  jackson:
+      date-format: yyyy-MM-dd HH:mm:ss
+      locale: zh_CN
+  redis:
+    host: 120.26.173.145
+    port: 6379
+  rabbitmq:
+      host: 120.26.173.145
+      username: guest
+      password: guest
+      virtual-host: /
+  #    邮件发送配置
+  mail:
+      username: 1499989399@qq.com
+      password: sgaguiozcpybgdjf
+      host: smtp.qq.com
+      properties:
+        mail.smtp.ssl.enable: true
+  main:
+    allow-bean-definition-overriding: false
+
+
+
+mybatis:
+  mapper-locations: classpath*:com/langsin/my_spring_security/dao/mapper/xml/*.xml
+  type-aliases-package: com.langsin.my_spring_security.pojo
+debug: false
+management:
+  #actuator端口 如果不配置做默认使用上面8080端口
+  server:
+    port: 9090
+  endpoints:
+    web:
+      cors:
+        allow-credentials: false
+      exposure:
+        #默认值访问health,info端点  用*可以包含全部端点
+        include: '*'
+      #修改访问路径 2.0之前默认是/; 2.0默认是/actuator可以通过这个属性值修改
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: ALWAYS
+      enabled: true
+server:
+  port: 8080
+
+
+
+#  tomcat:
+#    max-threads: 3
+
+
+#logging:
+#  level:
+#    com.langsin.my_spring_security: debug

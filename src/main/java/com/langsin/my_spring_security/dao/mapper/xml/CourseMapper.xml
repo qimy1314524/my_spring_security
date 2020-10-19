@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.langsin.my_spring_security.dao.mapper.CourseMapper">
+
+
+  <insert id="batshInsert">
+  insert into course values
+    <foreach collection="list" item="course" index="index" separator="," close=";">
+      (#{course.cid},#{course.cname},#{course.userId}#{course.cstatue});
+    </foreach>
+  </insert>
+
+  <insert id="addCourse" useGeneratedKeys="true" keyProperty="cid" parameterType="com.langsin.my_spring_security.pojo.Course">
+    insert into course (cname,userId,cstatue) values(#{course.cname},#{course.userId},#{course.cstatue});
+  </insert>
+
+  <select id="selectAllPage" resultType="com.langsin.my_spring_security.pojo.Course">
+    SELECT * from course limit #{page},#{size}
+  </select>
+
+
+</mapper>

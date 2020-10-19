@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.langsin.my_spring_security.dao.mapper.UserMapper">
+
+
+  <select id="getUser" resultType="com.langsin.my_spring_security.pojo.User">
+    select * from user where username=#{username};
+  </select>
+
+  <delete id="delByUsername">
+  delete from user where username=#{username};
+  </delete>
+
+
+  <select id="explain" resultType="map">
+    explain SELECT id,name FROM `disaster_event` where name like concat(#{name},"%")
+  </select>
+
+
+</mapper>
