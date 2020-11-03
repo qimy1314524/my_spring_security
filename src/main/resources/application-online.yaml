@@ -19,6 +19,10 @@ spring:
       testOnReturn: false
       poolPreparedStatements: true
       maxOpenPreparedStatements: 100
+      schema-password: 619619tey
+      schema-username: root
+      schema:
+        - classpath: schema.sql
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     locale: zh_CN

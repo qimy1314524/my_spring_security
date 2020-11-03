@@ -19,6 +19,8 @@ import java.util.Properties;
 import javax.sql.DataSource;
 import org.apache.ibatis.logging.stdout.StdOutImpl;
 import org.apache.ibatis.plugin.Interceptor;
+import org.apache.shardingsphere.api.config.encryptor.EncryptRuleConfiguration;
+import org.apache.shardingsphere.api.config.encryptor.EncryptorRuleConfiguration;
 import org.apache.shardingsphere.api.config.masterslave.MasterSlaveRuleConfiguration;
 import org.apache.shardingsphere.api.config.sharding.KeyGeneratorConfiguration;
 import org.apache.shardingsphere.api.config.sharding.ShardingRuleConfiguration;
@@ -36,6 +38,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
@@ -46,6 +49,7 @@ import org.springframework.util.StringUtils;
  * @desc
  **/
 @Configuration
+@EnableTransactionManagement
 public class MyShardingSphereConfiguration {
 
 
@@ -146,6 +150,14 @@ public class MyShardingSphereConfiguration {
     return masterSlaveRuleConfigurations;
   }
 
+  /*@Bean
+  public EncryptRuleConfiguration encryptRuleConfiguration(){
+    EncryptRuleConfiguration encryptRuleConfiguration=new EncryptRuleConfiguration();
+    Properties properties = new Properties();
+    properties.setProperty("aes.key.value","123456abc");
+    EncryptorRuleConfiguration encryptorRuleConfiguration=new EncryptorRuleConfiguration("aes","masterspringsecurity.slavespringsecurity",properties);
+    return encryptRuleConfiguration;
+  }*/
 
 
   /*@Bean
@@ -167,6 +179,9 @@ public class MyShardingSphereConfiguration {
   @ConfigurationProperties("spring.shardingsphere.sharding")
   public ShardingRuleConfiguration shardingRuleConfiguration() {
     ShardingRuleConfiguration shardingRuleConfiguration = new ShardingRuleConfiguration();
+
+    shardingRuleConfiguration.setEncryptRuleConfig(null);
+
     //设置默认数据源
     shardingRuleConfiguration.setDefaultDataSourceName("masterspringsecurity");
     //设置公共表
@@ -240,6 +255,7 @@ public class MyShardingSphereConfiguration {
   public DataSource shardingDataSource() {
     Properties configProperties = new Properties();
     configProperties.setProperty("sql.show","true");
+    configProperties.setProperty("query.with.cipher.column","true");
     Map<String, DataSource> dataSourceMap = new HashMap<>();
     dataSourceMap.put("masterspringsecurity", druidDataSourceMasterSpringSecurity());
     dataSourceMap.put("mastercourse1", druidDataSourceMasterCourse1());
@@ -269,12 +285,17 @@ public class MyShardingSphereConfiguration {
    * uncommited(读未提交事务):允许事务读取被其他事务提交的变更,脏读,不可重复度,幻读都会出现 2.	read commit(读已提交事务)
    * :只允许事务读取已经被其他事务提交的变更,可以避免脏读,但不可重复度和幻读问题仍有可能出现 3.	repeatable read(可重复读):确保事务可以多次从一个字段中读取相同的值,但这个事务持续期间,禁止其他事务对这个字段进行更新,可以避免脏读和不可重复度,但幻读仍然存在
    * 4.	serializable(串行化):确保事务可以从一个表中读取相同的行,在这个事务持续期间,禁止其他事务对该表执行插入,更新和删除操作,所有并发问题都可以解决
+   * XAShardingTransactionManager 两阶段事务
+   * SagaShardingTransactionMananger saga柔性事务
+   * seataShardingTransactionManager seata柔性事务
+   *使用@ShardingTransactionType(TransactionType.XA) 支持TransactionType.LOCAL, TransactionType.XA, TransactionType.BASE来选择分布式事务
    */
   @Bean
   public PlatformTransactionManager transactionManager(
       @Qualifier("shardingDataSource") DataSource shardingDataSource) {
     return new DataSourceTransactionManager(shardingDataSource);
   }
+
 
 
  /* @Bean

@@ -18,7 +18,7 @@ public class ScheduleService {
    * on the second, minute, hour, day of month, month, and day of week.
    * {@code "0 * * * * MON-FRI"}
    */
-  @Scheduled(cron = "0 * * * * MON-FRI")
+//  @Scheduled(cron = "0 * * * * MON-FRI")
   public void scheduleService(){
     System.out.println("hello"+ LocalDateTime.now());
   }

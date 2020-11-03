@@ -139,12 +139,21 @@ spring:
     props:
       sql:
         show: true
+
   jackson:
       date-format: yyyy-MM-dd HH:mm:ss
       locale: zh_CN
   redis:
-    host: 120.26.173.145
-    port: 6379
+      password: 619619Tey
+      cluster:
+        max-redirects: 10
+        nodes:
+          - 120.26.173.145:7001
+          - 120.26.173.145:7002
+          - 120.26.173.145:7003
+          - 120.26.173.145:7004
+          - 120.26.173.145:7005
+          - 120.26.173.145:7006
   rabbitmq:
       host: 120.26.173.145
       username: guest
@@ -185,7 +194,6 @@ management:
       enabled: true
 server:
   port: 8080
-
 
 
 #  tomcat:

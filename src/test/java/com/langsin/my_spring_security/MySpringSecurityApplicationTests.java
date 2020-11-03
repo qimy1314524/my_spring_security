@@ -72,6 +72,10 @@ class MySpringSecurityApplicationTests {
 //  @Autowired
   private DruidDataSource druidDataSource02;
 
+
+
+
+
   @Test
   public void test00002() {
     shardingRuleConfiguration.getTableRuleConfigs().stream().forEach(config -> {
